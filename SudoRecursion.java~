@@ -1,0 +1,40 @@
+import java.io.*;
+import java.util.*;
+
+public class SudoRecursion
+{
+  public static void main (String [] args) throws IOException
+  { 
+    File input = new File ("data.txt");
+    PrintWriter output = new PrintWriter(new FileWriter ("output.txt"));
+    
+    String words [] = {"ook", "ookook", "oog", "ooga", "ug", "mook", "mookmook", "oogam", "oogum", "ugug"};
+    
+    Scanner inFile = new Scanner(input);
+    String line;
+    
+    while(inFile.hasNextLine())
+    {
+      line = inFile.nextLine();
+      
+      output.println(cavemanCount(line, words));
+    }
+    output.close();
+  }
+  
+  public static int cavemanCount(String phrase, String[] wordBank) 
+  {
+    if (phrase.isEmpty()) 
+      return 1;
+    else 
+    {
+      int count = 0;
+      for (String w: wordBank) 
+      {
+        if (phrase.startsWith(w)) 
+          count = count + cavemanCount(phrase.replaceFirst(w,""), wordBank);
+      }
+      return count;
+    }
+  }
+}
